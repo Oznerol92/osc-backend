@@ -1,0 +1,39 @@
+datasource db {
+  provider = "postgresql" // Change this if you're using MySQL
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+
+model User {
+  id       String @id @default(uuid())
+  username String @unique
+  password String
+  role     String @default("USER") // e.g., "admin" or "user"
+}
+
+model Course {
+  id          String @id @default(uuid())
+  title       String
+  description String
+  duration    String
+  outcome     String
+  userId      String
+  user        User        @relation(fields: [userId], references: [id])
+  collection  Collection? @relation(fields: [collectionId], references: [id])
+  collectionId String?
+}
+
+model Collection {
+  id      String @id @default(uuid())
+  name    String @unique
+  courses Course[]
+}
+
+enum Role {
+  ADMIN
+  USER
+}
