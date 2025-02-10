@@ -90,14 +90,14 @@
 
 # Notes
 
-- I had some problems to understand how you wanted to create collections. It is not clear in your README when creating a course how you wanted to connect the collection, or you want only the admin to create collections or user can create them as well.
+- I had some difficulty understanding how you intended to handle collections. The README isn’t clear on whether collections should be created when a course is added, whether only admins can create them, or if users are allowed to do so as well.
 
-  this is how I'm handling it. It's not ideal for production ofc
+  Here’s how I’m currently handling it—though this approach isn’t ideal for production:
 
   ```ts
   // If no collectionId is provided, create a new collection
   if (!collectionId && collectionName) {
-    // Create a new collection if no collectionId and collection data is provided
+    // Create a new collection if neither collectionId nor collection data is provided
     collectionData = await prisma.collection.create({
       data: {
         name: collectionName, // The name of the new collection
@@ -105,3 +105,5 @@
     });
   }
   ```
+
+- I have some bug for `addCourse` mutation `Argument userId is missing.`
